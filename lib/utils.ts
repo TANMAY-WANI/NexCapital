@@ -199,11 +199,60 @@ export const authFormSchema = (type: string) => z.object({
   firstName: type==='sign-in' ? z.string().optional() : z.string().min(3),
   lastName: type==='sign-in' ? z.string().optional() : z.string().min(3),
   address1:  type==='sign-in' ? z.string().optional() :z.string().min(3),
-  state: type==='sign-in' ? z.string().optional() : z.string().min(3),
-  postalCode: type==='sign-in' ? z.string().optional() : z.string().min(3),
+  state: type==='sign-in' ? z.string().optional() : z.string().min(2).max(2),
+  postalCode: type==='sign-in' ? z.string().optional() : z.string().min(5).max(5),
   dateOfBirth:  type==='sign-in' ? z.string().optional() :z.string().min(3),
   city: type==='sign-in' ? z.string().optional() : z.string().min(3),
 
   email: z.string().email(),
   password: z.string().min(8),
 })
+
+
+// Define a type for the state abbreviations object
+type StateAbbreviations = {
+  [key: string]: string;
+};
+
+// Define the mapping of Indian states and union territories to their abbreviations
+const stateAbbreviations: StateAbbreviations = {
+  "Andhra Pradesh": "AP",
+  "Arunachal Pradesh": "AR",
+  "Assam": "AS",
+  "Bihar": "BR",
+  "Chhattisgarh": "CG",
+  "Goa": "GA",
+  "Gujarat": "GJ",
+  "Haryana": "HR",
+  "Himachal Pradesh": "HP",
+  "Jharkhand": "JH",
+  "Karnataka": "KA",
+  "Kerala": "KL",
+  "Madhya Pradesh": "MP",
+  "Maharashtra": "MH",
+  "Manipur": "MN",
+  "Meghalaya": "ML",
+  "Mizoram": "MZ",
+  "Nagaland": "NL",
+  "Odisha": "OD",
+  "Punjab": "PB",
+  "Rajasthan": "RJ",
+  "Sikkim": "SK",
+  "Tamil Nadu": "TN",
+  "Telangana": "TS",
+  "Tripura": "TR",
+  "Uttar Pradesh": "UP",
+  "Uttarakhand": "UT",
+  "West Bengal": "WB",
+  // Union Territories
+  "Andaman and Nicobar Islands": "AN",
+  "Chandigarh": "CH",
+  "Dadra and Nagar Haveli and Daman and Diu": "DN",
+  "Lakshadweep": "LD",
+  "Delhi": "DL",
+  "Puducherry": "PY"
+};
+
+export function getStateAbbreviation(stateName: string): string {
+  return stateAbbreviations[stateName] || stateName; // Return abbreviation or original if not found
+}
